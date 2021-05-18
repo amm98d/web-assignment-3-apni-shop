@@ -1,10 +1,13 @@
 ﻿using ApniShop.Models;
 using ApniShop.Repositories;
 using ApniShop.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,10 +16,12 @@ namespace ApniShop.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, IWebHostEnvironment hostingEnvironment)
         {
             this.productRepository = productRepository;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         // GET: ProductsController/Details/5
@@ -40,27 +45,24 @@ namespace ApniShop.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    string uniqueFileName = null;
+                    if (model.ProductImage != null)
+                    {
+                        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                        uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProductImage.FileName;
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        model.ProductImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                    }
                     var newProd = new Product
                     {
                         ProductTitle = model.ProductTitle,
-                        ProductImagePath = model.ProductImagePath,
+                        ProductImagePath = uniqueFileName,
                         ProductAvailability = model.ProductAvailability,
                         ProductDemand = 0,
                         ProductRating = 0
                     };
                     productRepository.Create(newProd);
-                    //if (result)
-                    //{
-                        return RedirectToAction("Index", "Home");
-                    //}
-                    //else
-                    //{
-
-                    //}
-                    //foreach (var each in result.Errors)
-                    //{
-                    //    ModelState.AddModelError("", each.Description);
-                    //}
+                    return RedirectToAction("Index", "Home");
                 }
                 return RedirectToAction("Index", "Home");
             }

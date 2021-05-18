@@ -42,7 +42,10 @@
             {
                 <div class="col">
                     <div class="card" style="max-width:20rem">
-                        <img src=@Model.ElementAt(j).ProductImagePath class="card-img-top">
+                        @{ 
+                            var imagePath = "~/images/" + Model.ElementAt(j).ProductImagePath;
+                        }
+                        <img src=@imagePath class="card-img-top" asp-append-version="true">
                         <div class="card-body">
                             <div class="container py-0" style="padding-left:1em">
                                 <div class="row h-auto">

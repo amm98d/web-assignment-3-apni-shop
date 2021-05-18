@@ -23,12 +23,22 @@
             <div class="form-group">
                 <label asp-for="ProductImage" class="col-form-label"></label><br />
                 <div class="custom-file">
-                    <input asp-for="ProductImage" class="form-control custom-file-input"/>
+                    <input asp-for="ProductImage" class="form-control custom-file-input" />
                     <label class="custom-file-label">Choose File...</label>
                     @*<span asp-validation-for="ProductImagePath" class="text-danger"></span>*@
                 </div>
             </div><br />
             <button type="submit" class="btn btn-primary">Submit for approval</button>
+            @section Scripts {
+                <script>
+                    $(document).ready(function () {
+                        $('.custom-file-input').on("change", function () {
+                            var fileName = $(this).val().split("\\").pop();
+                            $(this).next('.custom-file-label').html(fileName);
+                        });
+                    });
+                </script>
+            }
         </form>
     </div>
 </div>
