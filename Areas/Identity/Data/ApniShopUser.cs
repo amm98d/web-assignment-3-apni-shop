@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApniShop.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace ApniShop.Areas.Identity.Data
@@ -10,5 +11,6 @@ namespace ApniShop.Areas.Identity.Data
     public class ApniShopUser : IdentityUser
     {
         public string FullName { get; set; }
+        public ICollection<Product> ProductsInventory { get; set; }
     }
 }

@@ -61,7 +61,8 @@
             &copy; 2021 - ApniShop
             @if (SignInManager.IsSignedIn(User))
             {
-                <a class="text-dark float-right" style="text-decoration:none !important;" asp-area="" asp-controller="Product" asp-action="Create">
+                @*style="text-decoration:none !important;"*@
+                <a class="text-dark float-right"  asp-area="" asp-controller="Products" asp-action="Create">
                     Sell
                 </a>
             }

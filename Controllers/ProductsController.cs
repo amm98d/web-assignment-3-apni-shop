@@ -1,4 +1,6 @@
 ﻿using ApniShop.Models;
+using ApniShop.Repositories;
+using ApniShop.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +12,13 @@ namespace ApniShop.Controllers
 {
     public class ProductsController : Controller
     {
+        private readonly IProductRepository productRepository;
+
+        public ProductsController(IProductRepository productRepository)
+        {
+            this.productRepository = productRepository;
+        }
+
         // GET: ProductsController/Details/5
         public ActionResult Details(int id)
         {
@@ -25,11 +34,35 @@ namespace ApniShop.Controllers
         // POST: ProductsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CreateProductViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var newProd = new Product
+                    {
+                        ProductTitle = model.ProductTitle,
+                        ProductImagePath = model.ProductImagePath,
+                        ProductAvailability = model.ProductAvailability,
+                        ProductDemand = 0,
+                        ProductRating = 0
+                    };
+                    productRepository.Create(newProd);
+                    //if (result)
+                    //{
+                        return RedirectToAction("Index", "Home");
+                    //}
+                    //else
+                    //{
+
+                    //}
+                    //foreach (var each in result.Errors)
+                    //{
+                    //    ModelState.AddModelError("", each.Description);
+                    //}
+                }
+                return RedirectToAction("Index", "Home");
             }
             catch
             {

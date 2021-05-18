@@ -1,0 +1,34 @@
+﻿@model ApniShop.ViewModels.CreateProductViewModel
+
+@{
+    ViewBag.Title = "New Product";
+}
+
+<h1>Create New Product</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProductTitle"></label>
+                <input asp-for="ProductTitle" class="form-control" />
+                <span asp-validation-for="ProductTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductAvailability"></label>
+                <input asp-for="ProductAvailability" class="form-control" />
+                <span asp-validation-for="ProductAvailability" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductImage" class="col-form-label"></label><br />
+                <div class="custom-file">
+                    <input asp-for="ProductImage" class="form-control custom-file-input"/>
+                    <label class="custom-file-label">Choose File...</label>
+                    @*<span asp-validation-for="ProductImagePath" class="text-danger"></span>*@
+                </div>
+            </div><br />
+            <button type="submit" class="btn btn-primary">Submit for approval</button>
+        </form>
+    </div>
+</div>

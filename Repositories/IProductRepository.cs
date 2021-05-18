@@ -11,5 +11,7 @@ namespace ApniShop.Repositories
         Product GetProduct(int Id);
 
         List<Product> GetProducts();
+
+        void Create(Product newProduct);
     }
 }

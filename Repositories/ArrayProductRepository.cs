@@ -29,6 +29,11 @@ namespace ApniShop.Repositories
             };
         }
 
+        public void Create(Product newProduct)
+        {
+            _productList.Add(newProduct);
+        }
+
         public Product GetProduct(int Id)
         {
             return _productList.FirstOrDefault(p => p.ProductID == Id);
@@ -37,5 +42,7 @@ namespace ApniShop.Repositories
         {
             return _productList.OrderByDescending(o => o.ProductRating).ToList();
         }
+
+
     }
 }

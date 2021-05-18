@@ -23,9 +23,7 @@ namespace ApniShop.Controllers
 
         public IActionResult Index()
         {
-            TempData["productsList"] = _productRepository.GetProducts();
-            return RedirectToAction("Index", "Products");
-            //return View(_productRepository.GetProducts());
+            return View(_productRepository.GetProducts());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

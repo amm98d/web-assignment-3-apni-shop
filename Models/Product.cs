@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApniShop.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace ApniShop.Models
         public int ProductAvailability { get; set; }
         public int ProductDemand { get; set; }
         public int ProductRating { get; set; }
+        public ApniShopUser Seller { get; set; }
     }
 }
