@@ -1,0 +1,172 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<style>
+    img {
+        float: left;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .container {
+        padding-top: 20px
+    }
+
+    .button {
+        display: none;
+    }
+
+        img:hover + .button, .button:hover {
+            display: inline-block;
+        }
+
+    .bi-star {
+        border-color: gold;
+        stroke: gold
+    }
+
+    .bi-star-fill {
+        color: gold
+    }
+</style>
+@for (int i = 0; i < Model.Count(); i += 4)
+{
+    <div class="row" style="margin-top: 20px;">
+        @for (int j = i; j < i + 4; j++)
+        {
+            @if (i < Model.Count())
+            {
+                <div class="col">
+                    <div class="card" style="max-width:20rem">
+                        <img src=@Model.ElementAt(j).ProductImagePath class="card-img-top">
+                        <div class="card-body">
+                            <div class="container py-0" style="padding-left:1em">
+                                <div class="row h-auto">
+                                    <h6 class="card-title" style="display:inline">@Model.ElementAt(j).ProductTitle</h6>
+                                    <div class="ml-auto" style="display:inline">
+                                        @if (Model.ElementAt(j).ProductRating == 0)
+                                        {
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (Model.ElementAt(j).ProductRating == 1)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (Model.ElementAt(j).ProductRating == 2)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (Model.ElementAt(j).ProductRating == 3)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (Model.ElementAt(j).ProductRating == 4)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (Model.ElementAt(j).ProductRating == 5)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row h-25">
+                                    <button href="#" class="btn btn-outline-primary btn-sm">Want</button>
+                                    <span class="ml-auto">only @Model.ElementAt(j).ProductAvailability left</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    @*@if (i + 1 < Model.Count())
+        {
+            <div class="col">
+                <div class="card" style="max-width:20rem">
+                    <img src=@Model.ElementAt(i+1).ProductImagePath class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.ElementAt(i + 1).ProductTitle</h5>
+                        <a href="#" class="btn btn-primary">Want</a>
+                    </div>
+                </div>
+            </div>
+        }*@
+    @*@if (i + 2 < Model.Count())
+        {
+            <div class="col">
+                <div class="card" style="max-width:20rem">
+                    <img src=@Model.ElementAt(i+2).ProductImagePath class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.ElementAt(i + 2).ProductTitle</h5>
+                        <a href="#" class="btn btn-primary">Want</a>
+                    </div>
+                </div>
+            </div>
+        }*@
+    @*@if (i + 3 < Model.Count())
+        {
+            <div class="col">
+                <div class="card" style="max-width:20rem">
+                    <img src=@Model.ElementAt(i+3).ProductImagePath class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.ElementAt(i + 3).ProductTitle</h5>
+                        <a href="#" class="btn btn-primary">Want</a>
+                    </div>
+                </div>
+            </div>
+        }*@
+    @*@if (i + 4 < Model.Count())
+        {
+            <div class="col-2">
+                <div class="card" style="max-width:20rem">
+                    <img src=@Model.ElementAt(i+4).ProductImagePath class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.ElementAt(i + 4).ProductTitle</h5>
+                        <a href="#" class="btn btn-primary">Want</a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (i + 5 < Model.Count())
+        {
+            <div class="col-2">
+                <div class="card" style="max-width:20rem">
+                    <img src=@Model.ElementAt(i+5).ProductImagePath class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.ElementAt(i + 5).ProductTitle</h5>
+                        <a href="#" class="btn btn-primary">Want</a>
+                    </div>
+                </div>
+            </div>
+        }*@
+}
