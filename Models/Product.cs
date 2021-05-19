@@ -16,6 +16,6 @@ namespace ApniShop.Models
         public int ProductAvailability { get; set; }
         public int ProductDemand { get; set; }
         public int ProductRating { get; set; }
-        public ApniShopUser Seller { get; set; }
+        public ApniShopUser ProductSeller { get; set; }
     }
 }

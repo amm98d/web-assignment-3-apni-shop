@@ -20,9 +20,9 @@
         display: none;
     }
 
-        img:hover + .button, .button:hover {
-            display: inline-block;
-        }
+    @*img:hover + .button, .button:hover {
+        display: inline-block;
+    }*@
 
     .bi-star {
         border-color: gold;
@@ -32,7 +32,84 @@
     .bi-star-fill {
         color: gold
     }
+
 </style>
+
+@*<div class="card-deck">
+        @foreach (var product in Model)
+        {
+            var imagePath = "~/images/" + product.ProductImagePath;
+            <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+                <div class="card-header">
+                    <h3>@product.ProductTitle</h3>
+                </div>
+                <img src=@imagePath class="card-img-top imageThumbnail" asp-append-version="true">
+                <div class="card-footer">
+                    <div class="container py-0" style="padding-left:1em">
+                        <div class="row h-auto">
+                            <div class="ml-auto" style="display:inline">
+                                @if (product.ProductRating == 0)
+                                {
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                }
+                                else if (product.ProductRating == 1)
+                                {
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                }
+                                else if (product.ProductRating == 2)
+                                {
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                }
+                                else if (product.ProductRating == 3)
+                                {
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star"></span>
+                                    <span class="bi bi-star"></span>
+                                }
+                                else if (product.ProductRating == 4)
+                                {
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star"></span>
+                                }
+                                else if (product.ProductRating == 5)
+                                {
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                    <span class="bi bi-star-fill"></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row h-25">
+                            <button href="#" class="btn btn-outline-primary btn-sm">Want</button>
+                            <span class="ml-auto">only @product.ProductAvailability left</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>*@
+
+
+
 @for (int i = 0; i < Model.Count(); i += 4)
 {
     <div class="row" style="margin-top: 20px;">
@@ -40,18 +117,20 @@
         {
             @if (j < Model.Count())
             {
-                <div class="col">
+                var product = Model.ElementAt(j);
+                var imagePath = j>7 ? "~/images/" + product.ProductImagePath : product.ProductImagePath;
+                <div class="col-3">
                     <div class="card" style="max-width:20rem">
-                        @{ 
-                            var imagePath = "~/images/" + Model.ElementAt(j).ProductImagePath;
-                        }
-                        <img src=@imagePath class="card-img-top" asp-append-version="true">
-                        <div class="card-body">
+                        <div class="card-header">
+                            <h3>@product.ProductTitle</h3>
+                        </div>
+                        <img src=@imagePath class="card-img-top imageThumbnail" asp-append-version="true">
+                        <div class="card-footer">
                             <div class="container py-0" style="padding-left:1em">
                                 <div class="row h-auto">
-                                    <h6 class="card-title" style="display:inline">@Model.ElementAt(j).ProductTitle</h6>
+                                    <button href="#" class="btn btn-outline-primary btn-sm">Want</button>
                                     <div class="ml-auto" style="display:inline">
-                                        @if (Model.ElementAt(j).ProductRating == 0)
+                                        @if (product.ProductRating == 0)
                                         {
                                             <span class="bi bi-star"></span>
                                             <span class="bi bi-star"></span>
@@ -59,7 +138,7 @@
                                             <span class="bi bi-star"></span>
                                             <span class="bi bi-star"></span>
                                         }
-                                        else if (Model.ElementAt(j).ProductRating == 1)
+                                        else if (product.ProductRating == 1)
                                         {
                                             <span class="bi bi-star-fill"></span>
                                             <span class="bi bi-star"></span>
@@ -67,7 +146,7 @@
                                             <span class="bi bi-star"></span>
                                             <span class="bi bi-star"></span>
                                         }
-                                        else if (Model.ElementAt(j).ProductRating == 2)
+                                        else if (product.ProductRating == 2)
                                         {
                                             <span class="bi bi-star-fill"></span>
                                             <span class="bi bi-star-fill"></span>
@@ -75,7 +154,7 @@
                                             <span class="bi bi-star"></span>
                                             <span class="bi bi-star"></span>
                                         }
-                                        else if (Model.ElementAt(j).ProductRating == 3)
+                                        else if (product.ProductRating == 3)
                                         {
                                             <span class="bi bi-star-fill"></span>
                                             <span class="bi bi-star-fill"></span>
@@ -83,7 +162,7 @@
                                             <span class="bi bi-star"></span>
                                             <span class="bi bi-star"></span>
                                         }
-                                        else if (Model.ElementAt(j).ProductRating == 4)
+                                        else if (product.ProductRating == 4)
                                         {
                                             <span class="bi bi-star-fill"></span>
                                             <span class="bi bi-star-fill"></span>
@@ -91,7 +170,7 @@
                                             <span class="bi bi-star-fill"></span>
                                             <span class="bi bi-star"></span>
                                         }
-                                        else if (Model.ElementAt(j).ProductRating == 5)
+                                        else if (product.ProductRating == 5)
                                         {
                                             <span class="bi bi-star-fill"></span>
                                             <span class="bi bi-star-fill"></span>
@@ -101,9 +180,9 @@
                                         }
                                     </div>
                                 </div>
-                                <div class="row h-25">
-                                    <button href="#" class="btn btn-outline-primary btn-sm">Want</button>
-                                    <span class="ml-auto">only @Model.ElementAt(j).ProductAvailability left</span>
+                                <div class="row h-25" style="margin-top:5px">
+                                    <span style="font-size:11.5px">demand: @product.ProductDemand</span>
+                                    <span class="ml-auto" style="font-size:11.5px">only @product.ProductAvailability left</span>
                                 </div>
                             </div>
                         </div>
@@ -112,64 +191,72 @@
             }
         }
     </div>
-    @*@if (i + 1 < Model.Count())
-        {
-            <div class="col">
-                <div class="card" style="max-width:20rem">
-                    <img src=@Model.ElementAt(i+1).ProductImagePath class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">@Model.ElementAt(i + 1).ProductTitle</h5>
-                        <a href="#" class="btn btn-primary">Want</a>
-                    </div>
-                </div>
-            </div>
-        }*@
-    @*@if (i + 2 < Model.Count())
-        {
-            <div class="col">
-                <div class="card" style="max-width:20rem">
-                    <img src=@Model.ElementAt(i+2).ProductImagePath class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">@Model.ElementAt(i + 2).ProductTitle</h5>
-                        <a href="#" class="btn btn-primary">Want</a>
-                    </div>
-                </div>
-            </div>
-        }*@
-    @*@if (i + 3 < Model.Count())
-        {
-            <div class="col">
-                <div class="card" style="max-width:20rem">
-                    <img src=@Model.ElementAt(i+3).ProductImagePath class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">@Model.ElementAt(i + 3).ProductTitle</h5>
-                        <a href="#" class="btn btn-primary">Want</a>
-                    </div>
-                </div>
-            </div>
-        }*@
-    @*@if (i + 4 < Model.Count())
-        {
-            <div class="col-2">
-                <div class="card" style="max-width:20rem">
-                    <img src=@Model.ElementAt(i+4).ProductImagePath class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">@Model.ElementAt(i + 4).ProductTitle</h5>
-                        <a href="#" class="btn btn-primary">Want</a>
-                    </div>
-                </div>
-            </div>
-        }
-        @if (i + 5 < Model.Count())
-        {
-            <div class="col-2">
-                <div class="card" style="max-width:20rem">
-                    <img src=@Model.ElementAt(i+5).ProductImagePath class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">@Model.ElementAt(i + 5).ProductTitle</h5>
-                        <a href="#" class="btn btn-primary">Want</a>
-                    </div>
-                </div>
-            </div>
-        }*@
 }
+
+@*<div class="card" style="max-width:20rem">
+        @{
+            var imagePath = "~/images/" + Model.ElementAt(j).ProductImagePath;
+        }
+        <img src=@imagePath class="card-img-top" asp-append-version="true">
+        <div class="card-body">
+            <div class="container py-0" style="padding-left:1em">
+                <div class="row h-auto">
+                    <h6 class="card-title" style="display:inline">@Model.ElementAt(j).ProductTitle</h6>
+                    <div class="ml-auto" style="display:inline">
+                        @if (Model.ElementAt(j).ProductRating == 0)
+                        {
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (Model.ElementAt(j).ProductRating == 1)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (Model.ElementAt(j).ProductRating == 2)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (Model.ElementAt(j).ProductRating == 3)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (Model.ElementAt(j).ProductRating == 4)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (Model.ElementAt(j).ProductRating == 5)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                        }
+                    </div>
+                </div>
+                <div class="row h-25">
+                    <button href="#" class="btn btn-outline-primary btn-sm">Want</button>
+                    <span class="ml-auto">only @Model.ElementAt(j).ProductAvailability left</span>
+                </div>
+            </div>
+        </div>
+    </div>*@

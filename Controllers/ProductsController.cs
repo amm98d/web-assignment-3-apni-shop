@@ -1,14 +1,14 @@
-﻿using ApniShop.Models;
+﻿using ApniShop.Areas.Identity.Data;
+using ApniShop.Models;
 using ApniShop.Repositories;
 using ApniShop.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ApniShop.Controllers
@@ -17,11 +17,15 @@ namespace ApniShop.Controllers
     {
         private readonly IProductRepository productRepository;
         private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly UserManager<ApniShopUser> userManager;
 
-        public ProductsController(IProductRepository productRepository, IWebHostEnvironment hostingEnvironment)
+        public ProductsController(IProductRepository productRepository, 
+                                IWebHostEnvironment hostingEnvironment,
+                                UserManager<ApniShopUser> userManager)
         {
             this.productRepository = productRepository;
             this.hostingEnvironment = hostingEnvironment;
+            this.userManager = userManager;
         }
 
         // GET: ProductsController/Details/5
@@ -39,7 +43,7 @@ namespace ApniShop.Controllers
         // POST: ProductsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateProductViewModel model)
+        public async Task<ActionResult> Create(CreateProductViewModel model)
         {
             try
             {
@@ -59,8 +63,9 @@ namespace ApniShop.Controllers
                         ProductImagePath = uniqueFileName,
                         ProductAvailability = model.ProductAvailability,
                         ProductDemand = 0,
-                        ProductRating = 0
-                    };
+                        ProductRating = 0,
+                        ProductSeller = await userManager.GetUserAsync(User)
+                };
                     productRepository.Create(newProd);
                     return RedirectToAction("Index", "Home");
                 }

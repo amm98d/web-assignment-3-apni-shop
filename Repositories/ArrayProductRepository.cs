@@ -22,10 +22,6 @@ namespace ApniShop.Repositories
                 new Product(){ProductTitle="Office chair", ProductImagePath="/images/image-2.jpg", ProductAvailability=3, ProductDemand=1, ProductRating=1},
                 new Product(){ProductTitle="Sofa", ProductImagePath="/images/image-2.jpg", ProductAvailability=3, ProductDemand=1, ProductRating=1},
                 new Product(){ProductTitle="Sofa", ProductImagePath="/images/image-2.jpg", ProductAvailability=3, ProductDemand=1, ProductRating=3},
-                new Product(){ProductTitle="Sofa", ProductImagePath="/images/image-2.jpg", ProductAvailability=3, ProductDemand=1, ProductRating=2},
-                new Product(){ProductTitle="Sofa", ProductImagePath="/images/image-2.jpg", ProductAvailability=3, ProductDemand=1, ProductRating=1},
-                new Product(){ProductTitle="Sofa", ProductImagePath="/images/image-2.jpg", ProductAvailability=3, ProductDemand=1, ProductRating=5},
-                new Product(){ProductTitle="Sofa", ProductImagePath="/images/image-2.jpg", ProductAvailability=3, ProductDemand=1, ProductRating=4}
             };
         }
 
