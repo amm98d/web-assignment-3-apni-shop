@@ -98,7 +98,7 @@ namespace ApniShop.Controllers
                             ApniShopUser = currentUser,
                             Product = product
                         });
-                    currentUserWants.Remove(product);
+                    product.ProductDemand--;
                     context.SaveChanges();
                 }
                 else
@@ -111,6 +111,7 @@ namespace ApniShop.Controllers
                             ApniShopUserID = currentUser.Id,
                             ApniShopUser = currentUser
                         });
+                    product.ProductDemand++;
                     context.SaveChanges();
                 }
             }
