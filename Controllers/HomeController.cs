@@ -3,6 +3,7 @@ using ApniShop.Data;
 using ApniShop.Models;
 using ApniShop.Repositories;
 using ApniShop.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,12 +19,15 @@ namespace ApniShop.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly UserManager<ApniShopUser> userManager;
         private readonly ApniShopContext context;
 
-        public HomeController(UserManager<ApniShopUser> userManager,
-            ApniShopContext context)
+        public HomeController(IWebHostEnvironment hostingEnvironment,
+                                UserManager<ApniShopUser> userManager,
+                                ApniShopContext context)
         {
+            this.hostingEnvironment = hostingEnvironment;
             this.userManager = userManager;
             this.context = context;
         }
@@ -70,6 +75,90 @@ namespace ApniShop.Controllers
             }
             IEnumerable<IndexProductViewModel> en = indexProductViewModels;
             return View(en);
+        }
+
+        public async Task<ActionResult> Want(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                ApniShopUser currentUser = await userManager.GetUserAsync(User);
+                var currentUserWants = await context.Wants_ProductApniShopUser
+                    .Where(x => x.ApniShopUser == currentUser)
+                    .Select(x => x.Product)
+                    .ToListAsync();
+                var product = context.Products
+                    .Where(x => x.ProductID == id)
+                    .FirstOrDefault();
+                var wantStatus = currentUserWants.Contains(product);
+                if (wantStatus == true)
+                {
+                    context.Wants_ProductApniShopUser
+                        .Remove(new Wants_ProductApniShopUser
+                        {
+                            ApniShopUser = currentUser,
+                            Product = product
+                        });
+                    currentUserWants.Remove(product);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    context.Wants_ProductApniShopUser
+                        .Add(new Wants_ProductApniShopUser
+                        {
+                            ProductID = product.ProductID,
+                            Product = product,
+                            ApniShopUserID = currentUser.Id,
+                            ApniShopUser = currentUser
+                        });
+                    context.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //public ActionResult Create(CreateProductViewModel model)
+        public async Task<ActionResult> Create(CreateProductViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string uniqueFileName = null;
+                    if (model.ProductImage != null)
+                    {
+                        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                        uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProductImage.FileName;
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        await model.ProductImage.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                    }
+                    var newProd = new Product
+                    {
+                        ProductTitle = model.ProductTitle,
+                        ProductImagePath = uniqueFileName,
+                        ProductAvailability = model.ProductAvailability,
+                        ProductDemand = 0,
+                        ProductRating = 0,
+                        //ProductSeller = await userManager.GetUserAsync(User)
+                    };
+                    await context.Products.AddAsync(newProd);
+                    await context.SaveChangesAsync();
+                    //productRepository.Create(newProd);
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

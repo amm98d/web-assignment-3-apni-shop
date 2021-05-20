@@ -2,7 +2,6 @@
 @using ApniShop.Areas.Identity.Data
 
 @inject SignInManager<ApniShopUser> SignInManager
-@inject UserManager<ApniShopUser> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,13 +26,13 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Products" asp-action="Wishlist">Wishlist</a>
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Wishlist">Wishlist</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Products" asp-action="Inventory">Inventory</a>
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Inventory">Inventory</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Products" asp-action="Orders">Orders</a>
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Orders">Orders</a>
                             </li>
                         }
                     </ul>
@@ -78,7 +77,7 @@
             @if (SignInManager.IsSignedIn(User))
             {
                 @*style="text-decoration:none !important;"*@
-                <a class="text-dark float-right" asp-area="" asp-controller="Products" asp-action="Create">
+                <a class="text-dark float-right" asp-area="" asp-controller="Home" asp-action="Create">
                     Sell
                 </a>
             }

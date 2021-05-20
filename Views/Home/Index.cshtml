@@ -50,11 +50,11 @@
                                 <div class="row h-auto">
                                     @if (product.Wanted)
                                     {
-                                        <a class="btn btn-primary btn-sm" asp-route-id=@product.ProductID asp-controller="Products" asp-action="Want">Wanted</a>
+                                        <a class="btn btn-primary btn-sm" asp-route-id=@product.ProductID asp-controller="Home" asp-action="Want">Wanted</a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-outline-primary btn-sm" asp-route-id=@product.ProductID asp-controller="Products" asp-action="Want">Want</a>
+                                        <a class="btn btn-outline-primary btn-sm" asp-route-id=@product.ProductID asp-controller="Home" asp-action="Want">Want</a>
                                     }
                                     <div class="ml-auto" style="display:inline">
                                         @if (product.ProductRating == 0)
