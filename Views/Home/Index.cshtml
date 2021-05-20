@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model IEnumerable<IndexProductViewModel>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -20,10 +20,6 @@
         display: none;
     }
 
-    @*img:hover + .button, .button:hover {
-        display: inline-block;
-    }*@
-
     .bi-star {
         border-color: gold;
         stroke: gold
@@ -32,8 +28,97 @@
     .bi-star-fill {
         color: gold
     }
-
 </style>
+
+@for (int i = 0; i < Model.Count(); i += 4)
+{
+    <div class="row" style="margin-top: 20px;">
+        @for (int j = i; j < i + 4; j++)
+        {
+            @if (j < Model.Count())
+            {
+                var product = Model.ElementAt(j);
+                var imagePath = j > 7 ? "~/images/" + product.ProductImagePath : product.ProductImagePath;
+                <div class="col-3">
+                    <div class="card" style="max-width:20rem">
+                        <div class="card-header">
+                            <h3>@product.ProductTitle</h3>
+                        </div>
+                        <img src=@imagePath class="card-img-top imageThumbnail" asp-append-version="true">
+                        <div class="card-footer">
+                            <div class="container py-0" style="padding-left:1em">
+                                <div class="row h-auto">
+                                    @if (product.Wanted)
+                                    {
+                                        <a class="btn btn-primary btn-sm" asp-route-id=@product.ProductID asp-controller="Products" asp-action="Want">Wanted</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-outline-primary btn-sm" asp-route-id=@product.ProductID asp-controller="Products" asp-action="Want">Want</a>
+                                    }
+                                    <div class="ml-auto" style="display:inline">
+                                        @if (product.ProductRating == 0)
+                                        {
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (product.ProductRating == 1)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (product.ProductRating == 2)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (product.ProductRating == 3)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (product.ProductRating == 4)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star"></span>
+                                        }
+                                        else if (product.ProductRating == 5)
+                                        {
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                            <span class="bi bi-star-fill"></span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row h-25" style="margin-top:5px">
+                                    <span style="font-size:11.5px">demand: @product.ProductDemand</span>
+                                    <span class="ml-auto" style="font-size:11.5px">only @product.ProductAvailability left</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
 
 @*<div class="card-deck">
         @foreach (var product in Model)
@@ -107,91 +192,6 @@
             </div>
         }
     </div>*@
-
-
-
-@for (int i = 0; i < Model.Count(); i += 4)
-{
-    <div class="row" style="margin-top: 20px;">
-        @for (int j = i; j < i + 4; j++)
-        {
-            @if (j < Model.Count())
-            {
-                var product = Model.ElementAt(j);
-                var imagePath = j>7 ? "~/images/" + product.ProductImagePath : product.ProductImagePath;
-                <div class="col-3">
-                    <div class="card" style="max-width:20rem">
-                        <div class="card-header">
-                            <h3>@product.ProductTitle</h3>
-                        </div>
-                        <img src=@imagePath class="card-img-top imageThumbnail" asp-append-version="true">
-                        <div class="card-footer">
-                            <div class="container py-0" style="padding-left:1em">
-                                <div class="row h-auto">
-                                    <button href="#" class="btn btn-outline-primary btn-sm">Want</button>
-                                    <div class="ml-auto" style="display:inline">
-                                        @if (product.ProductRating == 0)
-                                        {
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                        }
-                                        else if (product.ProductRating == 1)
-                                        {
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                        }
-                                        else if (product.ProductRating == 2)
-                                        {
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                        }
-                                        else if (product.ProductRating == 3)
-                                        {
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star"></span>
-                                            <span class="bi bi-star"></span>
-                                        }
-                                        else if (product.ProductRating == 4)
-                                        {
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star"></span>
-                                        }
-                                        else if (product.ProductRating == 5)
-                                        {
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                            <span class="bi bi-star-fill"></span>
-                                        }
-                                    </div>
-                                </div>
-                                <div class="row h-25" style="margin-top:5px">
-                                    <span style="font-size:11.5px">demand: @product.ProductDemand</span>
-                                    <span class="ml-auto" style="font-size:11.5px">only @product.ProductAvailability left</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-}
 
 @*<div class="card" style="max-width:20rem">
         @{

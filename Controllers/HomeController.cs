@@ -1,6 +1,11 @@
-﻿using ApniShop.Models;
+﻿using ApniShop.Areas.Identity.Data;
+using ApniShop.Data;
+using ApniShop.Models;
 using ApniShop.Repositories;
+using ApniShop.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,18 +17,59 @@ namespace ApniShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IProductRepository _productRepository;
+        private readonly UserManager<ApniShopUser> userManager;
+        private readonly ApniShopContext context;
 
-        public HomeController(ILogger<HomeController> logger, IProductRepository productRepository)
+        public HomeController(UserManager<ApniShopUser> userManager,
+            ApniShopContext context)
         {
-            _logger = logger;
-            _productRepository = productRepository;
+            this.userManager = userManager;
+            this.context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_productRepository.GetProducts());
+            List<IndexProductViewModel> indexProductViewModels = new List<IndexProductViewModel>();
+            List<Product> allProducts = await context.Products.ToListAsync();
+            if (User.Identity.IsAuthenticated)
+            {
+                ApniShopUser currentUser = await userManager.GetUserAsync(User);
+                foreach (var product in allProducts)
+                {
+                    var currentUserWants = await context.Wants_ProductApniShopUser
+                        .Where(x => x.ApniShopUser == currentUser)
+                        .Select(x => x.Product)
+                        .ToListAsync();
+                    indexProductViewModels.Add(new IndexProductViewModel
+                    {
+                        ProductID = product.ProductID,
+                        ProductTitle = product.ProductTitle,
+                        ProductImagePath = product.ProductImagePath,
+                        ProductAvailability = product.ProductAvailability,
+                        ProductDemand = product.ProductDemand,
+                        ProductRating = product.ProductRating,
+                        Wanted = currentUserWants.Contains(product)
+                    });
+                }
+            }
+            else
+            {
+                foreach (var product in allProducts)
+                {
+                    indexProductViewModels.Add(new IndexProductViewModel
+                    {
+                        ProductID = product.ProductID,
+                        ProductTitle = product.ProductTitle,
+                        ProductImagePath = product.ProductImagePath,
+                        ProductAvailability = product.ProductAvailability,
+                        ProductDemand = product.ProductDemand,
+                        ProductRating = product.ProductRating,
+                        Wanted = false
+                    });
+                }
+            }
+            IEnumerable<IndexProductViewModel> en = indexProductViewModels;
+            return View(en);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

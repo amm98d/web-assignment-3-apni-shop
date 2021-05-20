@@ -11,6 +11,9 @@ namespace ApniShop.Areas.Identity.Data
     public class ApniShopUser : IdentityUser
     {
         public string FullName { get; set; }
-        public ICollection<Product> ProductsInventory { get; set; }
+
+        //public ICollection<Product> ProductsInventory { get; set; }
+
+        public ICollection<Wants_ProductApniShopUser> Wants { get; set; }
     }
 }

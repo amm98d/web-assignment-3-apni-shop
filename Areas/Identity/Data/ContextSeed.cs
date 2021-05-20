@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ApniShop.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,7 +34,6 @@ namespace ApniShop.Areas.Identity.Data
                     await userManager.CreateAsync(defaultUser, "admin");
                     await userManager.AddToRoleAsync(defaultUser, "Admin");
                 }
-
             }
         }
     }

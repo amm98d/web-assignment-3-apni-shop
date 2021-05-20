@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApniShop.Migrations
 {
     [DbContext(typeof(ApniShopContext))]
-    [Migration("20210517041234_CreateIdentitySchema")]
-    partial class CreateIdentitySchema
+    [Migration("20210520135512_migration1")]
+    partial class migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,9 @@ namespace ApniShop.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -84,6 +87,48 @@ namespace ApniShop.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("ApniShop.Models.Product", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProductAvailability")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductDemand")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductRating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductID");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ApniShop.Models.Wants_ProductApniShopUser", b =>
+                {
+                    b.Property<string>("ApniShopUserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ApniShopUserID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("Wants_ProductApniShopUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -221,6 +266,25 @@ namespace ApniShop.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ApniShop.Models.Wants_ProductApniShopUser", b =>
+                {
+                    b.HasOne("ApniShop.Areas.Identity.Data.ApniShopUser", "ApniShopUser")
+                        .WithMany("Wants")
+                        .HasForeignKey("ApniShopUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApniShop.Models.Product", "Product")
+                        .WithMany("Wanters")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApniShopUser");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -270,6 +334,16 @@ namespace ApniShop.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ApniShop.Areas.Identity.Data.ApniShopUser", b =>
+                {
+                    b.Navigation("Wants");
+                });
+
+            modelBuilder.Entity("ApniShop.Models.Product", b =>
+                {
+                    b.Navigation("Wanters");
                 });
 #pragma warning restore 612, 618
         }

@@ -29,7 +29,7 @@ namespace ApniShop
         {
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
-            services.AddSingleton<IProductRepository, ArrayProductRepository>();
+            services.AddSingleton<IProductRepository, SQLProductRepository>();
             services.AddRazorPages();
             services.Configure<IdentityOptions>(options =>
             {

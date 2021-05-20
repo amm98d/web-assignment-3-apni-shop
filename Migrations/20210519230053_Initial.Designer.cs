@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApniShop.Migrations
 {
     [DbContext(typeof(ApniShopContext))]
-    [Migration("20210518181433_RemoveIsAdmin")]
-    partial class RemoveIsAdmin
+    [Migration("20210519230053_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,6 +87,48 @@ namespace ApniShop.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("ApniShop.Models.Product", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProductAvailability")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductDemand")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductRating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductID");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ApniShopUserProduct", b =>
+                {
+                    b.Property<string>("WantedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("WantsProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("WantedById", "WantsProductID");
+
+                    b.HasIndex("WantsProductID");
+
+                    b.ToTable("ApniShopUserProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -222,6 +264,21 @@ namespace ApniShop.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ApniShopUserProduct", b =>
+                {
+                    b.HasOne("ApniShop.Areas.Identity.Data.ApniShopUser", null)
+                        .WithMany()
+                        .HasForeignKey("WantedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApniShop.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("WantsProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

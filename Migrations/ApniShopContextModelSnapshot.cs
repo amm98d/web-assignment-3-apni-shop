@@ -109,14 +109,24 @@ namespace ApniShop.Migrations
                     b.Property<string>("ProductTitle")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SellerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ProductID");
 
-                    b.HasIndex("SellerId");
+                    b.ToTable("Products");
+                });
 
-                    b.ToTable("Product");
+            modelBuilder.Entity("ApniShop.Models.Wants_ProductApniShopUser", b =>
+                {
+                    b.Property<string>("ApniShopUserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ApniShopUserID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("Wants_ProductApniShopUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -254,13 +264,23 @@ namespace ApniShop.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ApniShop.Models.Product", b =>
+            modelBuilder.Entity("ApniShop.Models.Wants_ProductApniShopUser", b =>
                 {
-                    b.HasOne("ApniShop.Areas.Identity.Data.ApniShopUser", "Seller")
-                        .WithMany("ProductsInventory")
-                        .HasForeignKey("SellerId");
+                    b.HasOne("ApniShop.Areas.Identity.Data.ApniShopUser", "ApniShopUser")
+                        .WithMany("Wants")
+                        .HasForeignKey("ApniShopUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Seller");
+                    b.HasOne("ApniShop.Models.Product", "Product")
+                        .WithMany("Wanters")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApniShopUser");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -316,7 +336,12 @@ namespace ApniShop.Migrations
 
             modelBuilder.Entity("ApniShop.Areas.Identity.Data.ApniShopUser", b =>
                 {
-                    b.Navigation("ProductsInventory");
+                    b.Navigation("Wants");
+                });
+
+            modelBuilder.Entity("ApniShop.Models.Product", b =>
+                {
+                    b.Navigation("Wanters");
                 });
 #pragma warning restore 612, 618
         }
