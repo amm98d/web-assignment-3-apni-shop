@@ -17,17 +17,14 @@ namespace ApniShop.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly IProductRepository productRepository;
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly UserManager<ApniShopUser> userManager;
         private readonly ApniShopContext context;
 
-        public ProductsController(IProductRepository productRepository,
-                                IWebHostEnvironment hostingEnvironment,
+        public ProductsController(IWebHostEnvironment hostingEnvironment,
                                 UserManager<ApniShopUser> userManager,
                                 ApniShopContext context)
         {
-            this.productRepository = productRepository;
             this.hostingEnvironment = hostingEnvironment;
             this.userManager = userManager;
             this.context = context;
@@ -110,7 +107,9 @@ namespace ApniShop.Controllers
                         ProductRating = 0,
                         //ProductSeller = await userManager.GetUserAsync(User)
                     };
-                    productRepository.Create(newProd);
+                    context.Products.Add(newProd);
+                    context.SaveChanges();
+                    //productRepository.Create(newProd);
                     return RedirectToAction("Index", "Home");
                 }
                 return RedirectToAction("Index", "Home");

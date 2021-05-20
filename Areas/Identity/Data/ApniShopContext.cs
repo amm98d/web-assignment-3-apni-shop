@@ -30,6 +30,7 @@ namespace ApniShop.Data
                 .HasOne<ApniShopUser>(wpa => wpa.ApniShopUser)
                 .WithMany(p => p.Wants)
                 .HasForeignKey(wpa => wpa.ApniShopUserID);
+            builder.Seed();
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Wants_ProductApniShopUser> Wants_ProductApniShopUser { get; set; }
