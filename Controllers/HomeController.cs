@@ -3,6 +3,7 @@ using ApniShop.Data;
 using ApniShop.Models;
 using ApniShop.Repositories;
 using ApniShop.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace ApniShop.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<IndexProductViewModel> indexProductViewModels = new List<IndexProductViewModel>();
+            List<ProductViewModel> indexProductViewModels = new List<ProductViewModel>();
             List<Product> allProducts = await context.Products.ToListAsync();
             if (User.Identity.IsAuthenticated)
             {
@@ -45,7 +46,7 @@ namespace ApniShop.Controllers
                         .Where(x => x.ApniShopUser == currentUser)
                         .Select(x => x.Product)
                         .ToListAsync();
-                    indexProductViewModels.Add(new IndexProductViewModel
+                    indexProductViewModels.Add(new ProductViewModel
                     {
                         ProductID = product.ProductID,
                         ProductTitle = product.ProductTitle,
@@ -61,7 +62,7 @@ namespace ApniShop.Controllers
             {
                 foreach (var product in allProducts)
                 {
-                    indexProductViewModels.Add(new IndexProductViewModel
+                    indexProductViewModels.Add(new ProductViewModel
                     {
                         ProductID = product.ProductID,
                         ProductTitle = product.ProductTitle,
@@ -73,11 +74,62 @@ namespace ApniShop.Controllers
                     });
                 }
             }
-            IEnumerable<IndexProductViewModel> en = indexProductViewModels;
+            IEnumerable<ProductViewModel> en = indexProductViewModels;
             return View(en);
         }
 
-        public async Task<ActionResult> Want(int id)
+        [Authorize]
+        public async Task<IActionResult> Wishlist()
+        {
+            ApniShopUser currentUser = await userManager.GetUserAsync(User);
+            var currentUserWants = await context.Wants_ProductApniShopUser
+                .Where(x => x.ApniShopUser == currentUser)
+                .Select(x => x.Product)
+                .ToListAsync();
+            List<ProductViewModel> listData = new List<ProductViewModel>();
+            foreach (var product in currentUserWants)
+            {
+                listData.Add(new ProductViewModel
+                {
+                    ProductID = product.ProductID,
+                    ProductTitle = product.ProductTitle,
+                    ProductImagePath = product.ProductImagePath,
+                    ProductAvailability = product.ProductAvailability,
+                    ProductDemand = product.ProductDemand,
+                    ProductRating = product.ProductRating,
+                    Wanted = true
+                });
+            }
+            return View(listData);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Inventory()
+        {
+            ApniShopUser currentUser = await userManager.GetUserAsync(User);
+            var currentUserWants = await context.Wants_ProductApniShopUser
+                .Where(x => x.ApniShopUser == currentUser)
+                .Select(x => x.Product)
+                .ToListAsync();
+            List<ProductViewModel> listData = new List<ProductViewModel>();
+            foreach (var product in currentUserWants)
+            {
+                listData.Add(new ProductViewModel
+                {
+                    ProductID = product.ProductID,
+                    ProductTitle = product.ProductTitle,
+                    ProductImagePath = product.ProductImagePath,
+                    ProductAvailability = product.ProductAvailability,
+                    ProductDemand = product.ProductDemand,
+                    ProductRating = product.ProductRating,
+                    Wanted = true
+                });
+            }
+            return View(listData);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Want(int id)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -118,15 +170,16 @@ namespace ApniShop.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Create()
+        [Authorize]
+        public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public ActionResult Create(CreateProductViewModel model)
-        public async Task<ActionResult> Create(CreateProductViewModel model)
+        public async Task<IActionResult> Create(CreateProductViewModel model)
         {
             try
             {

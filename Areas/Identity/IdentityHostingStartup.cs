@@ -16,10 +16,6 @@ namespace ApniShop.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<ApniShopContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("ApniShopContextConnection")));
-
                 services.AddDefaultIdentity<ApniShopUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ApniShopContext>();

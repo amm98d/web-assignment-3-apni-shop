@@ -1,0 +1,132 @@
+﻿@model IEnumerable<ApniShop.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Inventory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<style>
+    img {
+        float: left;
+        width: 35px;
+        height: 35px;
+        object-fit: cover;
+    }
+
+    .bi-star {
+        border-color: gold;
+        stroke: gold
+    }
+
+    .bi-star-fill {
+        color: gold
+    }
+</style>
+
+<h1>Inventory</h1>
+
+<p>
+    <a asp-action="Create">Sell New Product</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductImagePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductAvailability)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductDemand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductRating)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductTitle)
+                </td>
+                <td>
+                    @{
+                        var imagePath = item.ProductImagePath;
+                    }
+                    <img src=@imagePath asp-append-version="true" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductAvailability)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductDemand)
+                </td>
+                <td>
+                    <div class="ml-auto" style="display:inline">
+                        @if (item.ProductRating == 0)
+                        {
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (item.ProductRating == 1)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (item.ProductRating == 2)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (item.ProductRating == 3)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (item.ProductRating == 4)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star"></span>
+                        }
+                        else if (item.ProductRating == 5)
+                        {
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                            <span class="bi bi-star-fill"></span>
+                        }
+                    </div>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
