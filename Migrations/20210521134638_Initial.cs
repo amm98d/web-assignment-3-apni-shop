@@ -164,6 +164,7 @@ namespace ApniShop.Migrations
                     ProductAvailability = table.Column<int>(type: "int", nullable: false),
                     ProductDemand = table.Column<int>(type: "int", nullable: false),
                     ProductRating = table.Column<int>(type: "int", nullable: false),
+                    Approved = table.Column<bool>(type: "bit", nullable: false),
                     ProductSellerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -203,17 +204,17 @@ namespace ApniShop.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ProductId", "ProductAvailability", "ProductDemand", "ProductImagePath", "ProductRating", "ProductSellerId", "ProductTitle" },
+                columns: new[] { "ProductId", "Approved", "ProductAvailability", "ProductDemand", "ProductImagePath", "ProductRating", "ProductSellerId", "ProductTitle" },
                 values: new object[,]
                 {
-                    { 1, 10, 3, "image-1.jpg", 0, null, "Mango" },
-                    { 2, 3, 1, "image-2.jpg", 1, null, "Sofa" },
-                    { 3, 3, 1, "image-2.jpg", 1, null, "Earphones" },
-                    { 4, 3, 1, "image-2.jpg", 1, null, "Xbox" },
-                    { 5, 3, 1, "image-2.jpg", 1, null, "Laptop" },
-                    { 6, 3, 1, "image-2.jpg", 1, null, "Office chair" },
-                    { 7, 3, 1, "image-2.jpg", 1, null, "Sofa" },
-                    { 8, 3, 1, "image-2.jpg", 3, null, "Sofa" }
+                    { 1, true, 10, 3, "image-1.jpg", 0, null, "Mango" },
+                    { 2, true, 3, 1, "image-2.jpg", 1, null, "Sofa" },
+                    { 3, true, 3, 1, "image-2.jpg", 1, null, "Earphones" },
+                    { 4, true, 3, 1, "image-2.jpg", 1, null, "Xbox" },
+                    { 5, true, 3, 1, "image-2.jpg", 1, null, "Laptop" },
+                    { 6, true, 3, 1, "image-2.jpg", 1, null, "Office chair" },
+                    { 7, true, 3, 1, "image-2.jpg", 1, null, "Sofa" },
+                    { 8, true, 3, 1, "image-2.jpg", 3, null, "Sofa" }
                 });
 
             migrationBuilder.CreateIndex(

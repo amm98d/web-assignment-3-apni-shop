@@ -1,14 +1,12 @@
 ﻿using ApniShop.Areas.Identity.Data;
 using ApniShop.Data;
 using ApniShop.Models;
-using ApniShop.Repositories;
 using ApniShop.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,11 +34,13 @@ namespace ApniShop.Controllers
         public async Task<IActionResult> Index()
         {
             List<ProductViewModel> indexProductViewModels = new List<ProductViewModel>();
-            List<Product> allProducts = await context.Products.ToListAsync();
+            List<Product> allApprovedProducts = await context.Products
+                .Where(x => x.Approved == true)
+                .ToListAsync();
             if (User.Identity.IsAuthenticated)
             {
                 ApniShopUser currentUser = await userManager.GetUserAsync(User);
-                foreach (var product in allProducts)
+                foreach (var product in allApprovedProducts)
                 {
                     var currentUserWants = await context.Wants_ProductApniShopUser
                         .Where(x => x.ApniShopUser == currentUser)
@@ -60,7 +60,7 @@ namespace ApniShop.Controllers
             }
             else
             {
-                foreach (var product in allProducts)
+                foreach (var product in allApprovedProducts)
                 {
                     indexProductViewModels.Add(new ProductViewModel
                     {
@@ -129,6 +129,7 @@ namespace ApniShop.Controllers
                     ProductAvailability = product.ProductAvailability,
                     ProductDemand = product.ProductDemand,
                     ProductRating = product.ProductRating,
+                    ApprovalStatus = product.Approved,
                 });
             }
             return View(listData);
@@ -137,14 +138,18 @@ namespace ApniShop.Controllers
         [Authorize]
         public async Task<IActionResult> Want(int id)
         {
+            var product = context.Products
+                .Where(x => x.ProductId == id)
+                .FirstOrDefault();
+            if (product.Approved == false)
+            {
+                return LocalRedirect("/Identity/Account/AccessDenied");
+            }
             ApniShopUser currentUser = await userManager.GetUserAsync(User);
             var currentUserWants = await context.Wants_ProductApniShopUser
                 .Where(x => x.ApniShopUser == currentUser)
                 .Select(x => x.Product)
                 .ToListAsync();
-            var product = context.Products
-                .Where(x => x.ProductId == id)
-                .FirstOrDefault();
             var wantStatus = currentUserWants.Contains(product);
             if (wantStatus == true)
             {
@@ -208,6 +213,7 @@ namespace ApniShop.Controllers
                         ProductRating = 0,
                         ProductSellerId = currentUser.Id,
                         ProductSeller = currentUser,
+                        Approved = currentUser.Email == "admin@admin.com",
                     };
                     await context.Products.AddAsync(newProd);
                     await context.SaveChangesAsync();
@@ -231,7 +237,7 @@ namespace ApniShop.Controllers
             var product = await context.Products
                 .Where(x => x.ProductId == id)
                 .FirstOrDefaultAsync();
-            if (!currentUserInventory.Contains(product) && currentUser.Email!="admin@admin.com")
+            if (!currentUserInventory.Contains(product) && currentUser.Email != "admin@admin.com")
             {
                 return LocalRedirect("/Identity/Account/AccessDenied");
             }
@@ -279,6 +285,7 @@ namespace ApniShop.Controllers
                     }
                     product.ProductTitle = model.ProductTitle;
                     product.ProductAvailability = model.ProductAvailability;
+                    product.Approved = false;
                     await context.SaveChangesAsync();
                     return RedirectToAction("Inventory");
                 }
@@ -287,6 +294,38 @@ namespace ApniShop.Controllers
             {
                 return View();
             }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UnApproved()
+        {
+            ApniShopUser currentUser = await userManager.GetUserAsync(User);
+            List<Product> unapproved = await context.Products
+                .Where(x => x.Approved == false)
+                .ToListAsync();
+            List<ProductViewModel> listData = new List<ProductViewModel>();
+            foreach (var product in unapproved)
+            {
+                listData.Add(new ProductViewModel
+                {
+                    ProductID = product.ProductId,
+                    ProductTitle = product.ProductTitle,
+                    ProductImagePath = product.ProductImagePath,
+                    ProductAvailability = product.ProductAvailability,
+                });
+            }
+            return View(listData);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var product = await context.Products
+                .Where(x => x.ProductId == id)
+                .FirstOrDefaultAsync();
+            product.Approved = true;
+            context.SaveChanges();
+            return RedirectToAction("UnApproved");
         }
 
         [Authorize]

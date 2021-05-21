@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ApniShop.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Pending Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    img {
+        float: left;
+        width: 35px;
+        height: 35px;
+        object-fit: cover;
+    }
+</style>
+
+<h1>Pending Approval</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductImagePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductAvailability)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductTitle)
+                </td>
+                <td>
+                    @{
+                        var imagePath = "~/images/" + item.ProductImagePath;
+                    }
+                    <img src=@imagePath asp-append-version="true" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductAvailability)
+                </td>
+                <td>
+                    @Html.ActionLink("Approve", "Approve", new { id = item.ProductID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

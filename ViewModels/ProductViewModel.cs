@@ -26,5 +26,8 @@ namespace ApniShop.ViewModels
         public int ProductRating { get; set; }
 
         public bool Wanted { get; set; }
+
+        [Display(Name = "Status")]
+        public bool ApprovalStatus { get; set; }
     }
 }

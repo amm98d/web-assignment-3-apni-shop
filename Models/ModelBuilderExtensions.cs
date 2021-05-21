@@ -20,6 +20,7 @@ namespace ApniShop.Models
                     ProductAvailability = 10,
                     ProductDemand = 3,
                     ProductRating = 0,
+                    Approved = true,
                 },
                 new Product()
                 {
@@ -29,6 +30,7 @@ namespace ApniShop.Models
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
+                    Approved = true,
                 },
                 new Product()
                 {
@@ -38,6 +40,7 @@ namespace ApniShop.Models
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
+                    Approved = true,
                 },
                 new Product()
                 {
@@ -47,6 +50,7 @@ namespace ApniShop.Models
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
+                    Approved = true,
                 },
                 new Product()
                 {
@@ -56,6 +60,7 @@ namespace ApniShop.Models
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
+                    Approved = true,
                 },
                 new Product()
                 {
@@ -65,6 +70,7 @@ namespace ApniShop.Models
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
+                    Approved = true,
                 },
                 new Product()
                 {
@@ -74,6 +80,7 @@ namespace ApniShop.Models
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
+                    Approved = true,
                 },
                 new Product()
                 {
@@ -83,6 +90,7 @@ namespace ApniShop.Models
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 3,
+                    Approved = true,
                 }
                 );
         }

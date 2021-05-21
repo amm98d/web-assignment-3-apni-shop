@@ -94,6 +94,9 @@ namespace ApniShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Approved")
+                        .HasColumnType("bit");
+
                     b.Property<int>("ProductAvailability")
                         .HasColumnType("int");
 
@@ -122,6 +125,7 @@ namespace ApniShop.Migrations
                         new
                         {
                             ProductId = 1,
+                            Approved = true,
                             ProductAvailability = 10,
                             ProductDemand = 3,
                             ProductImagePath = "image-1.jpg",
@@ -131,6 +135,7 @@ namespace ApniShop.Migrations
                         new
                         {
                             ProductId = 2,
+                            Approved = true,
                             ProductAvailability = 3,
                             ProductDemand = 1,
                             ProductImagePath = "image-2.jpg",
@@ -140,6 +145,7 @@ namespace ApniShop.Migrations
                         new
                         {
                             ProductId = 3,
+                            Approved = true,
                             ProductAvailability = 3,
                             ProductDemand = 1,
                             ProductImagePath = "image-2.jpg",
@@ -149,6 +155,7 @@ namespace ApniShop.Migrations
                         new
                         {
                             ProductId = 4,
+                            Approved = true,
                             ProductAvailability = 3,
                             ProductDemand = 1,
                             ProductImagePath = "image-2.jpg",
@@ -158,6 +165,7 @@ namespace ApniShop.Migrations
                         new
                         {
                             ProductId = 5,
+                            Approved = true,
                             ProductAvailability = 3,
                             ProductDemand = 1,
                             ProductImagePath = "image-2.jpg",
@@ -167,6 +175,7 @@ namespace ApniShop.Migrations
                         new
                         {
                             ProductId = 6,
+                            Approved = true,
                             ProductAvailability = 3,
                             ProductDemand = 1,
                             ProductImagePath = "image-2.jpg",
@@ -176,6 +185,7 @@ namespace ApniShop.Migrations
                         new
                         {
                             ProductId = 7,
+                            Approved = true,
                             ProductAvailability = 3,
                             ProductDemand = 1,
                             ProductImagePath = "image-2.jpg",
@@ -185,6 +195,7 @@ namespace ApniShop.Migrations
                         new
                         {
                             ProductId = 8,
+                            Approved = true,
                             ProductAvailability = 3,
                             ProductDemand = 1,
                             ProductImagePath = "image-2.jpg",

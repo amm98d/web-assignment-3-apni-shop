@@ -22,6 +22,8 @@ namespace ApniShop.Models
 
         public int ProductRating { get; set; }
 
+        public bool Approved { get; set; }
+
         public string ProductSellerId { get; set; }
         public ApniShopUser ProductSeller { get; set; }
 
