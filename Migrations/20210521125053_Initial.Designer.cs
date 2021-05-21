@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApniShop.Migrations
 {
     [DbContext(typeof(ApniShopContext))]
-    [Migration("20210521080349_migration3")]
-    partial class migration3
+    [Migration("20210521125053_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,102 +91,107 @@ namespace ApniShop.Migrations
 
             modelBuilder.Entity("ApniShop.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Availability")
+                    b.Property<int>("ProductAvailability")
                         .HasColumnType("int");
 
-                    b.Property<int>("Demand")
+                    b.Property<int>("ProductDemand")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImagePath")
+                    b.Property<string>("ProductImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Rating")
+                    b.Property<int>("ProductRating")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("ProductSellerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProductTitle")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("ProductSellerId");
 
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Availability = 10,
-                            Demand = 3,
-                            ImagePath = "/images/image-1.jpg",
-                            Rating = 0,
-                            Title = "Mango"
+                            ProductId = 1,
+                            ProductAvailability = 10,
+                            ProductDemand = 3,
+                            ProductImagePath = "image-1.jpg",
+                            ProductRating = 0,
+                            ProductTitle = "Mango"
                         },
                         new
                         {
-                            Id = 2,
-                            Availability = 3,
-                            Demand = 1,
-                            ImagePath = "/images/image-2.jpg",
-                            Rating = 1,
-                            Title = "Sofa"
+                            ProductId = 2,
+                            ProductAvailability = 3,
+                            ProductDemand = 1,
+                            ProductImagePath = "image-2.jpg",
+                            ProductRating = 1,
+                            ProductTitle = "Sofa"
                         },
                         new
                         {
-                            Id = 3,
-                            Availability = 3,
-                            Demand = 1,
-                            ImagePath = "/images/image-2.jpg",
-                            Rating = 1,
-                            Title = "Earphones"
+                            ProductId = 3,
+                            ProductAvailability = 3,
+                            ProductDemand = 1,
+                            ProductImagePath = "image-2.jpg",
+                            ProductRating = 1,
+                            ProductTitle = "Earphones"
                         },
                         new
                         {
-                            Id = 4,
-                            Availability = 3,
-                            Demand = 1,
-                            ImagePath = "/images/image-2.jpg",
-                            Rating = 1,
-                            Title = "Xbox"
+                            ProductId = 4,
+                            ProductAvailability = 3,
+                            ProductDemand = 1,
+                            ProductImagePath = "image-2.jpg",
+                            ProductRating = 1,
+                            ProductTitle = "Xbox"
                         },
                         new
                         {
-                            Id = 5,
-                            Availability = 3,
-                            Demand = 1,
-                            ImagePath = "/images/image-2.jpg",
-                            Rating = 1,
-                            Title = "Laptop"
+                            ProductId = 5,
+                            ProductAvailability = 3,
+                            ProductDemand = 1,
+                            ProductImagePath = "image-2.jpg",
+                            ProductRating = 1,
+                            ProductTitle = "Laptop"
                         },
                         new
                         {
-                            Id = 6,
-                            Availability = 3,
-                            Demand = 1,
-                            ImagePath = "/images/image-2.jpg",
-                            Rating = 1,
-                            Title = "Office chair"
+                            ProductId = 6,
+                            ProductAvailability = 3,
+                            ProductDemand = 1,
+                            ProductImagePath = "image-2.jpg",
+                            ProductRating = 1,
+                            ProductTitle = "Office chair"
                         },
                         new
                         {
-                            Id = 7,
-                            Availability = 3,
-                            Demand = 1,
-                            ImagePath = "/images/image-2.jpg",
-                            Rating = 1,
-                            Title = "Sofa"
+                            ProductId = 7,
+                            ProductAvailability = 3,
+                            ProductDemand = 1,
+                            ProductImagePath = "image-2.jpg",
+                            ProductRating = 1,
+                            ProductTitle = "Sofa"
                         },
                         new
                         {
-                            Id = 8,
-                            Availability = 3,
-                            Demand = 1,
-                            ImagePath = "/images/image-2.jpg",
-                            Rating = 3,
-                            Title = "Sofa"
+                            ProductId = 8,
+                            ProductAvailability = 3,
+                            ProductDemand = 1,
+                            ProductImagePath = "image-2.jpg",
+                            ProductRating = 3,
+                            ProductTitle = "Sofa"
                         });
                 });
 
@@ -340,6 +345,15 @@ namespace ApniShop.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ApniShop.Models.Product", b =>
+                {
+                    b.HasOne("ApniShop.Areas.Identity.Data.ApniShopUser", "ProductSeller")
+                        .WithMany("Inventory")
+                        .HasForeignKey("ProductSellerId");
+
+                    b.Navigation("ProductSeller");
+                });
+
             modelBuilder.Entity("ApniShop.Models.Wants_ProductApniShopUser", b =>
                 {
                     b.HasOne("ApniShop.Areas.Identity.Data.ApniShopUser", "ApniShopUser")
@@ -412,6 +426,8 @@ namespace ApniShop.Migrations
 
             modelBuilder.Entity("ApniShop.Areas.Identity.Data.ApniShopUser", b =>
                 {
+                    b.Navigation("Inventory");
+
                     b.Navigation("Wants");
                 });
 

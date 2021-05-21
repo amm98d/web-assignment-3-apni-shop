@@ -48,23 +48,6 @@ namespace ApniShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    ProductID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductAvailability = table.Column<int>(type: "int", nullable: false),
-                    ProductDemand = table.Column<int>(type: "int", nullable: false),
-                    ProductRating = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.ProductID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -171,33 +154,67 @@ namespace ApniShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ApniShopUserProduct",
+                name: "Products",
                 columns: table => new
                 {
-                    WantedById = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    WantsProductID = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductAvailability = table.Column<int>(type: "int", nullable: false),
+                    ProductDemand = table.Column<int>(type: "int", nullable: false),
+                    ProductRating = table.Column<int>(type: "int", nullable: false),
+                    ProductSellerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApniShopUserProduct", x => new { x.WantedById, x.WantsProductID });
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
                     table.ForeignKey(
-                        name: "FK_ApniShopUserProduct_AspNetUsers_WantedById",
-                        column: x => x.WantedById,
+                        name: "FK_Products_AspNetUsers_ProductSellerId",
+                        column: x => x.ProductSellerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wants_ProductApniShopUser",
+                columns: table => new
+                {
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    ApniShopUserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wants_ProductApniShopUser", x => new { x.ApniShopUserID, x.ProductID });
+                    table.ForeignKey(
+                        name: "FK_Wants_ProductApniShopUser_AspNetUsers_ApniShopUserID",
+                        column: x => x.ApniShopUserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ApniShopUserProduct_Products_WantsProductID",
-                        column: x => x.WantsProductID,
+                        name: "FK_Wants_ProductApniShopUser_Products_ProductID",
+                        column: x => x.ProductID,
                         principalTable: "Products",
-                        principalColumn: "ProductID",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_ApniShopUserProduct_WantsProductID",
-                table: "ApniShopUserProduct",
-                column: "WantsProductID");
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "ProductId", "ProductAvailability", "ProductDemand", "ProductImagePath", "ProductRating", "ProductSellerId", "ProductTitle" },
+                values: new object[,]
+                {
+                    { 1, 10, 3, "image-1.jpg", 0, null, "Mango" },
+                    { 2, 3, 1, "image-2.jpg", 1, null, "Sofa" },
+                    { 3, 3, 1, "image-2.jpg", 1, null, "Earphones" },
+                    { 4, 3, 1, "image-2.jpg", 1, null, "Xbox" },
+                    { 5, 3, 1, "image-2.jpg", 1, null, "Laptop" },
+                    { 6, 3, 1, "image-2.jpg", 1, null, "Office chair" },
+                    { 7, 3, 1, "image-2.jpg", 1, null, "Sofa" },
+                    { 8, 3, 1, "image-2.jpg", 3, null, "Sofa" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -237,13 +254,20 @@ namespace ApniShop.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductSellerId",
+                table: "Products",
+                column: "ProductSellerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wants_ProductApniShopUser_ProductID",
+                table: "Wants_ProductApniShopUser",
+                column: "ProductID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ApniShopUserProduct");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -260,10 +284,13 @@ namespace ApniShop.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Wants_ProductApniShopUser");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

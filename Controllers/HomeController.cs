@@ -289,6 +289,28 @@ namespace ApniShop.Controllers
             }
         }
 
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            ApniShopUser currentUser = await userManager.GetUserAsync(User);
+            var currentUserInventory = await context.Products
+                .Where(x => x.ProductSeller == currentUser)
+                .ToListAsync();
+            var product = await context.Products
+                .Where(x => x.ProductId == id)
+                .FirstOrDefaultAsync();
+            if (!currentUserInventory.Contains(product) && currentUser.Email != "admin@admin.com")
+            {
+                return LocalRedirect("/Identity/Account/AccessDenied");
+            }
+            else
+            {
+                context.Products.Remove(product);
+                context.SaveChanges();
+                return RedirectToAction("Inventory");
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
