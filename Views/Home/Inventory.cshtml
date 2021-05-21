@@ -59,7 +59,7 @@
                 </td>
                 <td>
                     @{
-                        var imagePath = item.ProductImagePath;
+                        var imagePath = "~/images/" + item.ProductImagePath;
                     }
                     <img src=@imagePath asp-append-version="true" />
                 </td>
@@ -122,8 +122,8 @@
                     </div>
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
                 </td>
             </tr>
         }

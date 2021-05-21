@@ -56,7 +56,7 @@
                 </td>
                 <td>
                     @{
-                        var imagePath = item.ProductImagePath;
+                        var imagePath = "~/images/" + item.ProductImagePath;
                     }
                     <img src=@imagePath asp-append-version="true" />
                 </td>

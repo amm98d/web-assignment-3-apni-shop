@@ -16,7 +16,7 @@ namespace ApniShop.Models
                 {
                     ProductId = 1,
                     ProductTitle = "Mango",
-                    ProductImagePath = "/images/image-1.jpg",
+                    ProductImagePath = "image-1.jpg",
                     ProductAvailability = 10,
                     ProductDemand = 3,
                     ProductRating = 0,
@@ -25,7 +25,7 @@ namespace ApniShop.Models
                 {
                     ProductId = 2,
                     ProductTitle = "Sofa",
-                    ProductImagePath = "/images/image-2.jpg",
+                    ProductImagePath = "image-2.jpg",
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
@@ -34,7 +34,7 @@ namespace ApniShop.Models
                 {
                     ProductId = 3,
                     ProductTitle = "Earphones",
-                    ProductImagePath = "/images/image-2.jpg",
+                    ProductImagePath = "image-2.jpg",
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
@@ -43,7 +43,7 @@ namespace ApniShop.Models
                 {
                     ProductId = 4,
                     ProductTitle = "Xbox",
-                    ProductImagePath = "/images/image-2.jpg",
+                    ProductImagePath = "image-2.jpg",
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
@@ -52,7 +52,7 @@ namespace ApniShop.Models
                 {
                     ProductId = 5,
                     ProductTitle = "Laptop",
-                    ProductImagePath = "/images/image-2.jpg",
+                    ProductImagePath = "image-2.jpg",
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
@@ -61,7 +61,7 @@ namespace ApniShop.Models
                 {
                     ProductId = 6,
                     ProductTitle = "Office chair",
-                    ProductImagePath = "/images/image-2.jpg",
+                    ProductImagePath = "image-2.jpg",
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
@@ -70,7 +70,7 @@ namespace ApniShop.Models
                 {
                     ProductId = 7,
                     ProductTitle = "Sofa",
-                    ProductImagePath = "/images/image-2.jpg",
+                    ProductImagePath = "image-2.jpg",
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 1,
@@ -79,7 +79,7 @@ namespace ApniShop.Models
                 {
                     ProductId = 8,
                     ProductTitle = "Sofa",
-                    ProductImagePath = "/images/image-2.jpg",
+                    ProductImagePath = "image-2.jpg",
                     ProductAvailability = 3,
                     ProductDemand = 1,
                     ProductRating = 3,

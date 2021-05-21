@@ -38,7 +38,8 @@
             @if (j < Model.Count())
             {
                 var product = Model.ElementAt(j);
-                var imagePath = j > 7 ? "~/images/" + product.ProductImagePath : product.ProductImagePath;
+                var imagePath = "~/images/" + product.ProductImagePath;
+                @*var imagePath = j > 7 ? "~/images/" + product.ProductImagePath : product.ProductImagePath;*@
                 <div class="col-3">
                     <div class="card" style="max-width:20rem">
                         <div class="card-header">
