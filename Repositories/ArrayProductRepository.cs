@@ -32,7 +32,7 @@ namespace ApniShop.Repositories
 
         public Product GetProduct(int Id)
         {
-            return _productList.FirstOrDefault(p => p.ProductID == Id);
+            return _productList.FirstOrDefault(p => p.ProductId == Id);
         }
         public List<Product> GetProducts()
         {

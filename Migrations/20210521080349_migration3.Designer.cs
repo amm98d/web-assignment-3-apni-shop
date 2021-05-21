@@ -4,14 +4,16 @@ using ApniShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApniShop.Migrations
 {
     [DbContext(typeof(ApniShopContext))]
-    partial class ApniShopContextModelSnapshot : ModelSnapshot
+    [Migration("20210521080349_migration3")]
+    partial class migration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,107 +91,102 @@ namespace ApniShop.Migrations
 
             modelBuilder.Entity("ApniShop.Models.Product", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ProductAvailability")
+                    b.Property<int>("Availability")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductDemand")
+                    b.Property<int>("Demand")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductImagePath")
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductRating")
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductSellerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProductTitle")
+                    b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ProductId");
-
-                    b.HasIndex("ProductSellerId");
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
-                            ProductId = 1,
-                            ProductAvailability = 10,
-                            ProductDemand = 3,
-                            ProductImagePath = "/images/image-1.jpg",
-                            ProductRating = 0,
-                            ProductTitle = "Mango"
+                            Id = 1,
+                            Availability = 10,
+                            Demand = 3,
+                            ImagePath = "/images/image-1.jpg",
+                            Rating = 0,
+                            Title = "Mango"
                         },
                         new
                         {
-                            ProductId = 2,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "/images/image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Sofa"
+                            Id = 2,
+                            Availability = 3,
+                            Demand = 1,
+                            ImagePath = "/images/image-2.jpg",
+                            Rating = 1,
+                            Title = "Sofa"
                         },
                         new
                         {
-                            ProductId = 3,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "/images/image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Earphones"
+                            Id = 3,
+                            Availability = 3,
+                            Demand = 1,
+                            ImagePath = "/images/image-2.jpg",
+                            Rating = 1,
+                            Title = "Earphones"
                         },
                         new
                         {
-                            ProductId = 4,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "/images/image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Xbox"
+                            Id = 4,
+                            Availability = 3,
+                            Demand = 1,
+                            ImagePath = "/images/image-2.jpg",
+                            Rating = 1,
+                            Title = "Xbox"
                         },
                         new
                         {
-                            ProductId = 5,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "/images/image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Laptop"
+                            Id = 5,
+                            Availability = 3,
+                            Demand = 1,
+                            ImagePath = "/images/image-2.jpg",
+                            Rating = 1,
+                            Title = "Laptop"
                         },
                         new
                         {
-                            ProductId = 6,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "/images/image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Office chair"
+                            Id = 6,
+                            Availability = 3,
+                            Demand = 1,
+                            ImagePath = "/images/image-2.jpg",
+                            Rating = 1,
+                            Title = "Office chair"
                         },
                         new
                         {
-                            ProductId = 7,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "/images/image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Sofa"
+                            Id = 7,
+                            Availability = 3,
+                            Demand = 1,
+                            ImagePath = "/images/image-2.jpg",
+                            Rating = 1,
+                            Title = "Sofa"
                         },
                         new
                         {
-                            ProductId = 8,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "/images/image-2.jpg",
-                            ProductRating = 3,
-                            ProductTitle = "Sofa"
+                            Id = 8,
+                            Availability = 3,
+                            Demand = 1,
+                            ImagePath = "/images/image-2.jpg",
+                            Rating = 3,
+                            Title = "Sofa"
                         });
                 });
 
@@ -343,15 +340,6 @@ namespace ApniShop.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ApniShop.Models.Product", b =>
-                {
-                    b.HasOne("ApniShop.Areas.Identity.Data.ApniShopUser", "ProductSeller")
-                        .WithMany("Inventory")
-                        .HasForeignKey("ProductSellerId");
-
-                    b.Navigation("ProductSeller");
-                });
-
             modelBuilder.Entity("ApniShop.Models.Wants_ProductApniShopUser", b =>
                 {
                     b.HasOne("ApniShop.Areas.Identity.Data.ApniShopUser", "ApniShopUser")
@@ -424,8 +412,6 @@ namespace ApniShop.Migrations
 
             modelBuilder.Entity("ApniShop.Areas.Identity.Data.ApniShopUser", b =>
                 {
-                    b.Navigation("Inventory");
-
                     b.Navigation("Wants");
                 });
 

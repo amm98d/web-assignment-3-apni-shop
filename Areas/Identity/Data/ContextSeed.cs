@@ -10,7 +10,8 @@ namespace ApniShop.Areas.Identity.Data
 {
     public class ContextSeed
     {
-        public static async Task SeedRolesAsync(UserManager<ApniShopUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(UserManager<ApniShopUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             //Seed roles
             await roleManager.CreateAsync(new IdentityRole("Admin"));

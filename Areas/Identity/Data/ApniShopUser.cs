@@ -12,7 +12,7 @@ namespace ApniShop.Areas.Identity.Data
     {
         public string FullName { get; set; }
 
-        //public ICollection<Product> ProductsInventory { get; set; }
+        public ICollection<Product> Inventory { get; set; }
 
         public ICollection<Wants_ProductApniShopUser> Wants { get; set; }
     }

@@ -10,13 +10,21 @@ namespace ApniShop.Models
     public class Product
     {
         [Key]
-        public int ProductID { get; set; }
+        public int ProductId { get; set; }
+
         public string ProductTitle { get; set; }
+
         public string ProductImagePath { get; set; }
+
         public int ProductAvailability { get; set; }
+
         public int ProductDemand { get; set; }
+
         public int ProductRating { get; set; }
-        //public ApniShopUser ProductSeller { get; set; }
+
+        public string ProductSellerId { get; set; }
+        public ApniShopUser ProductSeller { get; set; }
+
         public ICollection<Wants_ProductApniShopUser> Wanters { get; set; }
     }
 }

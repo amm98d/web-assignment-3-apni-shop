@@ -48,7 +48,7 @@ namespace ApniShop.Controllers
                         .ToListAsync();
                     indexProductViewModels.Add(new ProductViewModel
                     {
-                        ProductID = product.ProductID,
+                        ProductID = product.ProductId,
                         ProductTitle = product.ProductTitle,
                         ProductImagePath = product.ProductImagePath,
                         ProductAvailability = product.ProductAvailability,
@@ -64,7 +64,7 @@ namespace ApniShop.Controllers
                 {
                     indexProductViewModels.Add(new ProductViewModel
                     {
-                        ProductID = product.ProductID,
+                        ProductID = product.ProductId,
                         ProductTitle = product.ProductTitle,
                         ProductImagePath = product.ProductImagePath,
                         ProductAvailability = product.ProductAvailability,
@@ -91,13 +91,11 @@ namespace ApniShop.Controllers
             {
                 listData.Add(new ProductViewModel
                 {
-                    ProductID = product.ProductID,
                     ProductTitle = product.ProductTitle,
                     ProductImagePath = product.ProductImagePath,
                     ProductAvailability = product.ProductAvailability,
                     ProductDemand = product.ProductDemand,
                     ProductRating = product.ProductRating,
-                    Wanted = true
                 });
             }
             return View(listData);
@@ -107,22 +105,29 @@ namespace ApniShop.Controllers
         public async Task<IActionResult> Inventory()
         {
             ApniShopUser currentUser = await userManager.GetUserAsync(User);
-            var currentUserWants = await context.Wants_ProductApniShopUser
-                .Where(x => x.ApniShopUser == currentUser)
-                .Select(x => x.Product)
-                .ToListAsync();
+            List<Product> inventory = new List<Product>();
+            if (currentUser.Email == "admin@admin.com")
+            {
+                inventory = await context.Products
+                    .Where(x => x.ProductSeller == null)
+                    .ToListAsync();
+            }
+            else
+            {
+                inventory = await context.Products
+                    .Where(x => x.ProductSeller == currentUser)
+                    .ToListAsync();
+            }
             List<ProductViewModel> listData = new List<ProductViewModel>();
-            foreach (var product in currentUserWants)
+            foreach (var product in inventory)
             {
                 listData.Add(new ProductViewModel
                 {
-                    ProductID = product.ProductID,
                     ProductTitle = product.ProductTitle,
                     ProductImagePath = product.ProductImagePath,
                     ProductAvailability = product.ProductAvailability,
                     ProductDemand = product.ProductDemand,
                     ProductRating = product.ProductRating,
-                    Wanted = true
                 });
             }
             return View(listData);
@@ -139,7 +144,7 @@ namespace ApniShop.Controllers
                     .Select(x => x.Product)
                     .ToListAsync();
                 var product = context.Products
-                    .Where(x => x.ProductID == id)
+                    .Where(x => x.ProductId == id)
                     .FirstOrDefault();
                 var wantStatus = currentUserWants.Contains(product);
                 if (wantStatus == true)
@@ -158,7 +163,7 @@ namespace ApniShop.Controllers
                     context.Wants_ProductApniShopUser
                         .Add(new Wants_ProductApniShopUser
                         {
-                            ProductID = product.ProductID,
+                            ProductID = product.ProductId,
                             Product = product,
                             ApniShopUserID = currentUser.Id,
                             ApniShopUser = currentUser
