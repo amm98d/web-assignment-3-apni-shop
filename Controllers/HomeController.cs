@@ -224,52 +224,64 @@ namespace ApniShop.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
-            //ApniShopUser currentUser = await userManager.GetUserAsync(User);
-            //var currentUserWants = await context.Wants_ProductApniShopUser
-            //    .Where(x => x.ApniShopUser == currentUser)
-            //    .Select(x => x.Product)
-            //    .ToListAsync();
+            ApniShopUser currentUser = await userManager.GetUserAsync(User);
+            var currentUserInventory = await context.Products
+                .Where(x => x.ProductSeller == currentUser)
+                .ToListAsync();
             var product = await context.Products
                 .Where(x => x.ProductId == id)
                 .FirstOrDefaultAsync();
-            EditProductViewModel viewModel = new EditProductViewModel
+            if (!currentUserInventory.Contains(product) && currentUser.Email!="admin@admin.com")
             {
-                ProductID = id,
-                ProductTitle = product.ProductTitle,
-                ProductAvailability = product.ProductAvailability,
-                ProductImagePath = product.ProductImagePath
-            };
-            return View(viewModel);
+                return LocalRedirect("/Identity/Account/AccessDenied");
+            }
+            else
+            {
+                EditProductViewModel viewModel = new EditProductViewModel
+                {
+                    ProductID = id,
+                    ProductTitle = product.ProductTitle,
+                    ProductAvailability = product.ProductAvailability,
+                    ProductImagePath = product.ProductImagePath
+                };
+                return View(viewModel);
+            }
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(EditProductViewModel model)
         {
-            //ApniShopUser currentUser = await userManager.GetUserAsync(User);
-            //var currentUserWants = await context.Wants_ProductApniShopUser
-            //    .Where(x => x.ApniShopUser == currentUser)
-            //    .Select(x => x.Product)
-            //    .ToListAsync();
             try
             {
+                ApniShopUser currentUser = await userManager.GetUserAsync(User);
+                var currentUserInventory = await context.Products
+                    .Where(x => x.ProductSeller == currentUser)
+                    .ToListAsync();
                 var product = await context.Products
                     .Where(x => x.ProductId == model.ProductID)
                     .FirstOrDefaultAsync();
-                if (model.ProductImage != null && product.ProductImagePath != model.ProductImage.FileName)
+                if (!currentUserInventory.Contains(product) && currentUser.Email != "admin@admin.com")
                 {
-                    string newUniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProductImage.FileName;
-                    string filePath = Path.Combine(hostingEnvironment.WebRootPath, "images", newUniqueFileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await model.ProductImage.CopyToAsync(fileStream);
-                    }
-                    product.ProductImagePath = newUniqueFileName;
+                    return LocalRedirect("/Identity/Account/AccessDenied");
                 }
-                product.ProductTitle = model.ProductTitle;
-                product.ProductAvailability = model.ProductAvailability;
-                await context.SaveChangesAsync();
-                return RedirectToAction("Inventory");
+                else
+                {
+                    if (model.ProductImage != null && product.ProductImagePath != model.ProductImage.FileName)
+                    {
+                        string newUniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProductImage.FileName;
+                        string filePath = Path.Combine(hostingEnvironment.WebRootPath, "images", newUniqueFileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await model.ProductImage.CopyToAsync(fileStream);
+                        }
+                        product.ProductImagePath = newUniqueFileName;
+                    }
+                    product.ProductTitle = model.ProductTitle;
+                    product.ProductAvailability = model.ProductAvailability;
+                    await context.SaveChangesAsync();
+                    return RedirectToAction("Inventory");
+                }
             }
             catch
             {
