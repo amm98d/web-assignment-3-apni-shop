@@ -128,79 +128,79 @@ namespace ApniShop.Migrations
                             Approved = true,
                             ProductAvailability = 10,
                             ProductDemand = 3,
-                            ProductImagePath = "image-1.jpg",
-                            ProductRating = 0,
+                            ProductImagePath = "mango.jpg",
+                            ProductRating = 5,
                             ProductTitle = "Mango"
                         },
                         new
                         {
                             ProductId = 2,
                             Approved = true,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Sofa"
+                            ProductAvailability = 1,
+                            ProductDemand = 0,
+                            ProductImagePath = "perfume.jpg",
+                            ProductRating = 4,
+                            ProductTitle = "Perfume"
                         },
                         new
                         {
                             ProductId = 3,
                             Approved = true,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Earphones"
+                            ProductAvailability = 5,
+                            ProductDemand = 10,
+                            ProductImagePath = "airpods.jpg",
+                            ProductRating = 4,
+                            ProductTitle = "Airpods"
                         },
                         new
                         {
                             ProductId = 4,
                             Approved = true,
-                            ProductAvailability = 3,
+                            ProductAvailability = 2,
                             ProductDemand = 1,
-                            ProductImagePath = "image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Xbox"
+                            ProductImagePath = "controller.jpg",
+                            ProductRating = 3,
+                            ProductTitle = "Controller"
                         },
                         new
                         {
                             ProductId = 5,
                             Approved = true,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Laptop"
+                            ProductAvailability = 25,
+                            ProductDemand = 50,
+                            ProductImagePath = "burger.jpg",
+                            ProductRating = 5,
+                            ProductTitle = "Burger"
                         },
                         new
                         {
                             ProductId = 6,
                             Approved = true,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "image-2.jpg",
-                            ProductRating = 1,
-                            ProductTitle = "Office chair"
+                            ProductAvailability = 15,
+                            ProductDemand = 8,
+                            ProductImagePath = "shirt.jpg",
+                            ProductRating = 4,
+                            ProductTitle = "Shirt"
                         },
                         new
                         {
                             ProductId = 7,
                             Approved = true,
-                            ProductAvailability = 3,
-                            ProductDemand = 1,
-                            ProductImagePath = "image-2.jpg",
+                            ProductAvailability = 0,
+                            ProductDemand = 0,
+                            ProductImagePath = "shoes.jpg",
                             ProductRating = 1,
-                            ProductTitle = "Sofa"
+                            ProductTitle = "Shoes"
                         },
                         new
                         {
                             ProductId = 8,
                             Approved = true,
-                            ProductAvailability = 3,
+                            ProductAvailability = 5,
                             ProductDemand = 1,
-                            ProductImagePath = "image-2.jpg",
-                            ProductRating = 3,
-                            ProductTitle = "Sofa"
+                            ProductImagePath = "watch.jpg",
+                            ProductRating = 2,
+                            ProductTitle = "Watch"
                         });
                 });
 

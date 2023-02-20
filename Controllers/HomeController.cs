@@ -36,6 +36,8 @@ namespace ApniShop.Controllers
             List<ProductViewModel> indexProductViewModels = new List<ProductViewModel>();
             List<Product> allApprovedProducts = await context.Products
                 .Where(x => x.Approved == true)
+                .OrderByDescending(x => x.ProductRating)
+                .OrderByDescending(x => x.ProductDemand)
                 .ToListAsync();
             if (User.Identity.IsAuthenticated)
             {
@@ -219,7 +221,10 @@ namespace ApniShop.Controllers
                     await context.SaveChangesAsync();
                     return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction("Index", "Home");
+                else
+                {
+                    return View();
+                }
             }
             catch
             {
@@ -285,7 +290,10 @@ namespace ApniShop.Controllers
                     }
                     product.ProductTitle = model.ProductTitle;
                     product.ProductAvailability = model.ProductAvailability;
-                    product.Approved = false;
+                    if (currentUser.Email != "admin@admin.com")
+                    {
+                        product.Approved = false;
+                    }
                     await context.SaveChangesAsync();
                     return RedirectToAction("Inventory");
                 }

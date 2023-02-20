@@ -9,11 +9,11 @@ namespace ApniShop.ViewModels
 {
     public class CreateProductViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "The Product Title is required.")]
         [Display(Name ="Product Title")]
         public string ProductTitle { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The Product Image is required.")]
         [Display(Name = "Upload Product Image")]
         public IFormFile ProductImage { get; set; }
 
